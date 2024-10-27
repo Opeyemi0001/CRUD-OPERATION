@@ -1,10 +1,15 @@
 const express = require('express');
 const mongoose = require('mongoose');
+const cors = require('cors');
 const postRoutes = require('./routes/postRoutes');
 const userRoutes = require('./routes/userRoutes');
+require('dotenv').config();
+
+// Connect to MongoDB
+const dbUrl = process.env.MONGODB_URL;
 
 // connect to MongoDB
-mongoose.connect("mongodb+srv://opeyemionanuga40:NugaNuga1@cluster0.iclsc.mongodb.net/gmcblogdb?retryWrites=true&w=majority&appName=Cluster0")
+mongoose.connect(dbUrl)
 .then(() => {
   console.log("Connected to MongoDB");
 
@@ -14,6 +19,7 @@ mongoose.connect("mongodb+srv://opeyemionanuga40:NugaNuga1@cluster0.iclsc.mongod
 
   // middleware
   app.use(express.json());
+  app.use(cors());
 
 // connect routes
 app.use('/api', postRoutes);
